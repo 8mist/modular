@@ -4,7 +4,6 @@
     "target": "esNext",
     "lib": ["es2015.promise", "es6", "dom", "esnext"],
     "baseUrl": "./",
-    "rootDirs": ["./src"],
     "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"]
@@ -33,5 +32,5 @@
   },
   "include": ["**/*.ts"],
   "types": ["vitest/globals"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "vitest.config.ts", "**/*.test.ts"]
 }
