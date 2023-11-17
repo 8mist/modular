@@ -1,0 +1,8 @@
+node_modules/
+src/
+.editorconfig
+.gitignore
+.npmrc
+.nvmrc
+prettier.config.js
+tsconfig.json
