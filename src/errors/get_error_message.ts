@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { ErrorCodes } from '@/errors/errors.enum';
-import type { ErrorVariables } from '@/types';
+import type { ErrorVariables } from '../types';
+import { ErrorCodes } from './errors.enum';
 
 /**
  * Generates an error message by replacing placeholders

@@ -1,13 +1,13 @@
 {
   "name": "@gregoire.ciles/modular",
   "description": "A simple and lightweight module system for JavaScript",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=18.16.0",
+    "node": ">=18.0.0",
     "yarn": ">=1.22.0",
-    "pnpm": ">=8.0.0"
+    "pnpm": ">=7.0.0"
   },
   "author": {
     "name": "Grégoire Ciles",
@@ -37,7 +37,7 @@
     "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,mdx}\" --cache",
     "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "pretest": "npm run lint",
+    "typecheck": "tsc --noEmit",
     "test": "vitest --run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",

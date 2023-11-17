@@ -6,8 +6,8 @@ module.exports = {
     'node_modules',
     'dist',
     'coverage',
-    'jest.config.ts',
-    '**/*.spec.ts',
+    'vitest.config.ts',
+    '**/*.test.ts',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {

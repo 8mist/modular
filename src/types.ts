@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Module } from '@/module';
+import { Module } from './module';
 
 /**
  * Shape of a class constructor

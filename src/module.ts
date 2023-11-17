@@ -8,12 +8,12 @@
  */
 
 // eslint-disable-next-line max-len
-import { ModularModuleIdNotFoundException } from '@/exceptions/modular_module_id_not_found.exception';
-import { ModularModuleNotFoundException } from '@/exceptions/modular_module_not_found.exception';
-import type { ModuleKey, ModuleOptions } from '@/types';
-import { generateCustomQuery } from '@/utils/generate_custom_query';
-import { isFunction } from '@/utils/is_function';
-import { isObject } from '@/utils/is_object';
+import { ModularModuleIdNotFoundException } from './exceptions/modular_module_id_not_found.exception';
+import { ModularModuleNotFoundException } from './exceptions/modular_module_not_found.exception';
+import type { ModuleKey, ModuleOptions } from './types';
+import { generateCustomQuery } from './utils/generate_custom_query';
+import { isFunction } from './utils/is_function';
+import { isObject } from './utils/is_object';
 
 /**
  * Module is a class that represents a module.

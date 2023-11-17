@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { ErrorCodes } from '@/errors/errors.enum';
-import { getErrorMessage } from '@/errors/get_error_message';
-import { ModularException } from '@/exceptions/modular.exception';
+import { ErrorCodes } from '../errors/errors.enum';
+import { getErrorMessage } from '../errors/get_error_message';
+import { ModularException } from './modular.exception';
 
 /**
  * ModularProvideModulesException is thrown when the modules are not provided to the Modular instance.

@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { ErrorCodes } from '@/errors/errors.enum';
-import { getErrorMessage } from '@/errors/get_error_message';
-import { ModularException } from '@/exceptions/modular.exception';
+import { ErrorCodes } from '../errors/errors.enum';
+import { getErrorMessage } from '../errors/get_error_message';
+import { ModularException } from './modular.exception';
 
 /**
  * ModularModuleIdNotFoundException is thrown when a module ID is not found in the collection.

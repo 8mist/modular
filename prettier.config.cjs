@@ -18,7 +18,6 @@ module.exports = {
     '<THIRD_PARTY_MODULES>',
     '',
     '^types$',
-    '^@/(.*)$',
     '^[./]',
   ],
   importOrderBuiltinModulesToTop: true,
