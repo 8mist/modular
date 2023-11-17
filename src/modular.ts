@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { ModularAlreadyExistsException } from '@/exceptions/modular_already_exists.exception';
-import { ModularProvideModulesException } from '@/exceptions/modular_provide_modules.exception';
-import { Module } from '@/module';
-import type { Constructor, ModularOptions, ModuleCollection } from '@/types';
+import { ModularAlreadyExistsException } from './exceptions/modular_already_exists.exception';
+import { ModularProvideModulesException } from './exceptions/modular_provide_modules.exception';
+import { Module } from './module';
+import type { Constructor, ModularOptions, ModuleCollection } from './types';
 
 /**
  * Container is a dependency injection container.

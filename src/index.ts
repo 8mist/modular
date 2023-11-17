@@ -7,5 +7,5 @@
  * file that was distributed with this source code.
  */
 
-export { Modular } from '@/modular';
-export { Module } from '@/module';
+export { Modular } from './modular';
+export { Module } from './module';

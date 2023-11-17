@@ -5,9 +5,6 @@
     "lib": ["es2015.promise", "es6", "dom", "esnext"],
     "baseUrl": "./",
     "outDir": "./dist",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "strict": true,
     "composite": false,
     "declaration": true,
