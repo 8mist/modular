@@ -10,7 +10,8 @@
 // eslint-disable-next-line max-len
 import { ModularModuleIdNotFoundException } from './exceptions/modular_module_id_not_found.exception';
 import { ModularModuleNotFoundException } from './exceptions/modular_module_not_found.exception';
-import type { ModuleCompiled, ModuleKey, ModuleOptions } from './types';
+import { modulesCompiled } from './modules_compiled';
+import type { ModuleKey, ModuleOptions } from './types';
 import { generateCustomQuery } from './utils/generate_custom_query';
 import { isFunction } from './utils/is_function';
 import { isObject } from './utils/is_object';
@@ -52,17 +53,10 @@ export class Module {
    */
   element: HTMLElement | null;
 
-  /**
-   * The module instances.
-   * @private
-   */
-  modules: ModuleCompiled[];
-
-  constructor({ ID, name, element, modules }: ModuleOptions) {
+  constructor({ ID, name, element }: ModuleOptions) {
     this.ID = ID;
     this.name = name;
     this.element = element;
-    this.modules = modules;
   }
 
   /**
@@ -85,7 +79,7 @@ export class Module {
    * Call a method on a module.
    */
   call(moduleName: ModuleKey, methodName: string, ...args: any[]): void {
-    const moduleInstances = this.modules.filter((module) => module.name === moduleName);
+    const moduleInstances = modulesCompiled.filterByName(moduleName);
 
     if (moduleInstances && moduleInstances.length > 0) {
       moduleInstances.forEach((moduleInstance) =>
@@ -100,10 +94,10 @@ export class Module {
    * Call a method on a module by id.
    */
   callById(id: number, methodName: string, ...args: any[]): void {
-    const module = this.modules.find((m) => m.ID === id);
+    const moduleInstance = modulesCompiled.getById(id);
 
-    if (module) {
-      this.#callMethod(module, methodName, args);
+    if (moduleInstance) {
+      this.#callMethod(moduleInstance, methodName, args);
     } else {
       throw new ModularModuleIdNotFoundException(id);
     }
@@ -183,8 +177,8 @@ export class Module {
    * Call the method of a module instance.
    * @private
    */
-  #callMethod(module: any, methodName: string, ...args: any[]): void {
-    const moduleMethod = module[methodName];
+  #callMethod(moduleInstance: any, methodName: string, ...args: any[]): void {
+    const moduleMethod = moduleInstance[methodName];
     if (moduleMethod && isFunction(moduleMethod)) {
       moduleMethod.apply(this, ...args);
     }

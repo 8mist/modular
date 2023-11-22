@@ -10,7 +10,8 @@
 import { ModularAlreadyExistsException } from './exceptions/modular_already_exists.exception';
 import { ModularProvideModulesException } from './exceptions/modular_provide_modules.exception';
 import { Module } from './module';
-import type { Constructor, ModularOptions, ModuleCollection, ModuleCompiled } from './types';
+import { modulesCompiled } from './modules_compiled';
+import type { Constructor, ModularOptions, ModuleCollection } from './types';
 
 /**
  * Container is a dependency injection container.
@@ -23,11 +24,6 @@ export class Modular {
    * Registered modules as constructor.
    */
   #collection: ModuleCollection = new Map();
-
-  /**
-   * Registered modules as instances.
-   */
-  #collectionCompiled: ModuleCompiled[] = [];
 
   /**
    * A unique ID for each module instance.
@@ -68,11 +64,11 @@ export class Modular {
    * Call the init method on all modules.
    */
   init(): void {
-    if (this.#collectionCompiled.length === 0) {
+    if (modulesCompiled.modules.length === 0) {
       return;
     }
 
-    this.#collectionCompiled.forEach((moduleCompiled) => {
+    modulesCompiled.modules.forEach((moduleCompiled) => {
       moduleCompiled.bind();
       moduleCompiled.init();
     });
@@ -82,15 +78,14 @@ export class Modular {
    * Call the destroy method on all modules.
    */
   destroy(): void {
-    if (this.#collectionCompiled.length === 0) {
+    if (modulesCompiled.modules.length === 0) {
       return;
     }
 
-    this.#collectionCompiled.forEach((moduleCompiled) => {
+    modulesCompiled.modules.forEach((moduleCompiled) => {
       moduleCompiled.destroy();
     });
-
-    this.#collectionCompiled = [];
+    modulesCompiled.clear();
   }
 
   /**
@@ -110,10 +105,9 @@ export class Modular {
             ID: this.#moduleID,
             name: moduleName,
             element,
-            modules: this.#collectionCompiled,
           });
 
-          this.#collectionCompiled.push(moduleInstance);
+          modulesCompiled.add(moduleInstance);
           this.#moduleID++;
         });
       }

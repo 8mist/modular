@@ -50,7 +50,6 @@ export type ModuleOptions = {
   ID: number;
   name: ModuleKey;
   element: HTMLElement;
-  modules: Module[];
 };
 
 /**
