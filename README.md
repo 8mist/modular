@@ -233,7 +233,7 @@ class Header extends Module {
 }
 ```
 
-#### `parent(query: string, context: Element): Element | undefined`
+#### `parent<T extends HTMLElement>(query: string, target: T): T | undefined`
 
 Find the first parent element matching the query.
 

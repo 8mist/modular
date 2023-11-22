@@ -143,13 +143,13 @@ export class Module {
   /**
    * Find the first parent element matching the query.
    */
-  parent(query: string, context: Element): Element | undefined {
+  parent<T extends HTMLElement>(query: string, target: T): T | undefined {
     const data = `[data-${this.name}="${query}"]`;
-    let parent = context.parentNode;
+    let parent = target.parentNode;
 
     while (parent && parent !== document) {
-      if ((parent as Element).matches(data)) {
-        return parent as Element;
+      if ((parent as T).matches(data)) {
+        return parent as T;
       }
 
       parent = parent.parentNode;
