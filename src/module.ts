@@ -84,7 +84,7 @@ export class Module {
   /**
    * Call a method on a module.
    */
-  call(moduleName: ModuleKey, methodName: string, ...args: any[]) {
+  call(moduleName: ModuleKey, methodName: string, ...args: any[]): void {
     const moduleInstances = this.modules.filter((module) => module.name === moduleName);
 
     if (moduleInstances && moduleInstances.length > 0) {
@@ -99,7 +99,7 @@ export class Module {
   /**
    * Call a method on a module by id.
    */
-  callById(id: number, methodName: string, ...args: any[]) {
+  callById(id: number, methodName: string, ...args: any[]): void {
     const module = this.modules.find((m) => m.ID === id);
 
     if (module) {
