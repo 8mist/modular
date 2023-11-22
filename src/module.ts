@@ -51,7 +51,7 @@ export class Module {
    * The module element.
    * @private
    */
-  element: HTMLElement | null;
+  element: HTMLElement;
 
   constructor({ ID, name, element }: ModuleOptions) {
     this.ID = ID;
