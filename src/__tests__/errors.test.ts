@@ -9,8 +9,8 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ErrorCodes } from '@/errors/errors.enum';
-import { getErrorMessage } from '@/errors/get_error_message';
+import { ErrorCodes } from '../errors/errors.enum';
+import { getErrorMessage } from '../errors/get_error_message';
 
 describe('Errors', () => {
   test('should get an error message', () => {
