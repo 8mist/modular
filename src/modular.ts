@@ -14,10 +14,31 @@ import { modulesCompiled } from './modules_compiled';
 import type { Constructor, ModularOptions, ModuleCollection } from './types';
 
 /**
- * Container is a dependency injection container.
+ * Represents a dependency injection container in the Modular package.
  *
- * It gives access to object instances (services).
- * Services and parameters are simple key/pair stores.
+ * The `Modular` class acts as a central manager for module instances, facilitating the creation,
+ * initialization, and destruction of these modules based on the provided configuration. It manages a collection
+ * of module constructors, allowing for dynamic instantiation and lifecycle management of modules.
+ *
+ * Key functionalities include:
+ * - Registering module constructors with unique identifiers.
+ * - Compiling modules: creating instances of registered modules and associating them with DOM elements.
+ * - Initializing modules: invoking the `init` method on all compiled module instances.
+ * - Destroying modules: invoking the `destroy` method on all compiled module instances
+ * and clearing them from the collection.
+ *
+ * This class is integral to the framework's modular architecture, providing a robust mechanism
+ * for managing module lifecycles and ensuring modularity and separation of concerns within the application.
+ *
+ * @example
+ * ```ts
+ * import { Modular } from '@gregoire.ciles/modular';
+ *
+ * const modular = new Modular({ modules: { 'ModuleName': ModuleConstructor } });
+ * modular.init(); // Initializes all modules
+ * // ... application logic ...
+ * modular.destroy(); // Cleans up all modules
+ * ```
  */
 export class Modular {
   /**
