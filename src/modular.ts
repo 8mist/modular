@@ -10,7 +10,7 @@
 import { ModularAlreadyExistsException } from './exceptions/modular_already_exists.exception';
 import { ModularProvideModulesException } from './exceptions/modular_provide_modules.exception';
 import { Module } from './module';
-import type { Constructor, ModularOptions, ModuleCollection } from './types';
+import type { Constructor, ModularOptions, ModuleCollection, ModuleCompiled } from './types';
 
 /**
  * Container is a dependency injection container.
@@ -27,7 +27,7 @@ export class Modular {
   /**
    * Registered modules as instances.
    */
-  #collectionCompiled: Module[] = [];
+  #collectionCompiled: ModuleCompiled[] = [];
 
   /**
    * A unique ID for each module instance.
@@ -72,8 +72,9 @@ export class Modular {
       return;
     }
 
-    this.#collectionCompiled.forEach((moduleInstance) => {
-      moduleInstance.init();
+    this.#collectionCompiled.forEach((moduleCompiled) => {
+      moduleCompiled.bind();
+      moduleCompiled.init();
     });
   }
 
@@ -85,8 +86,8 @@ export class Modular {
       return;
     }
 
-    this.#collectionCompiled.forEach((moduleInstance) => {
-      moduleInstance.destroy();
+    this.#collectionCompiled.forEach((moduleCompiled) => {
+      moduleCompiled.destroy();
     });
 
     this.#collectionCompiled = [];
@@ -105,14 +106,14 @@ export class Modular {
         elements.forEach((element) => {
           element.setAttribute('data-module-id', this.#moduleID.toString());
 
-          const module = new moduleConstructor({
+          const moduleInstance = new moduleConstructor({
             ID: this.#moduleID,
             name: moduleName,
             element,
             modules: this.#collectionCompiled,
           });
 
-          this.#collectionCompiled.push(module);
+          this.#collectionCompiled.push(moduleInstance);
           this.#moduleID++;
         });
       }

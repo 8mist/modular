@@ -10,7 +10,7 @@
 // eslint-disable-next-line max-len
 import { ModularModuleIdNotFoundException } from './exceptions/modular_module_id_not_found.exception';
 import { ModularModuleNotFoundException } from './exceptions/modular_module_not_found.exception';
-import type { ModuleKey, ModuleOptions } from './types';
+import type { ModuleCompiled, ModuleKey, ModuleOptions } from './types';
 import { generateCustomQuery } from './utils/generate_custom_query';
 import { isFunction } from './utils/is_function';
 import { isObject } from './utils/is_object';
@@ -56,7 +56,7 @@ export class Module {
    * The module instances.
    * @private
    */
-  modules: Module[];
+  modules: ModuleCompiled[];
 
   constructor({ ID, name, element, modules }: ModuleOptions) {
     this.ID = ID;
@@ -74,6 +74,12 @@ export class Module {
    * Destroy the module.
    */
   destroy(): void {}
+
+  /**
+   * Bind all methods to the module instance.
+   * Automatically called by the Modular class before the init method.
+   */
+  bind(): void {}
 
   /**
    * Call a method on a module.
@@ -147,6 +153,29 @@ export class Module {
       }
 
       parent = parent.parentNode;
+    }
+  }
+
+  /**
+   * Returns element's first attribute whose qualified name is qualifiedName,
+   * and null if there is no such attribute otherwise.
+   */
+  getData<T extends HTMLElement>(qualifiedName: string, target: T): string | null {
+    const element = target || this.element;
+    if (element) {
+      return element.getAttribute(`data-${qualifiedName}`);
+    }
+
+    return null;
+  }
+
+  /**
+   * Sets the value of element's first attribute whose qualified name is qualifiedName to value.
+   */
+  setData<T extends HTMLElement>(qualifiedName: string, value: string, target: T): void {
+    const element = target || this.element;
+    if (element) {
+      element.setAttribute(`data-${qualifiedName}`, value);
     }
   }
 
