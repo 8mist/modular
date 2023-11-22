@@ -10,17 +10,17 @@
 import { Module } from './module';
 
 /**
- * Shape of a class constructor
+ * Shape of a class constructor.
  */
 export type Constructor<T> = new (...args: any[]) => T;
 
 /**
- * Accepted values for the collectable key
+ * Accepted values for the collectable key.
  */
 export type ModuleKey = string;
 
 /**
- * Options accepted by the Modular class
+ * Options accepted by the Modular class.
  */
 export type ModularOptions = {
   modules: {
@@ -29,28 +29,33 @@ export type ModularOptions = {
 };
 
 /**
- * Shape of the registered collectables
+ * Shape of the registered collectables.
  */
 export type ModuleCollection = Map<ModuleKey, Constructor<Module>>;
 
 /**
- * Shape of the registered collectables compiled
+ * Shape of the registered collectables compiled.
  */
 export type ModuleCollectionCompiled = Map<ModuleKey, Module>;
 
 /**
- * Variables accepted by the getErrorMessage function
+ * Shape of the module compiled.
  */
-export type ErrorVariables = {
-  [key: string]: any;
-};
+export type ModuleCompiled = Module;
 
 /**
- * Options accepted by the module class
+ * Options accepted by the module class.
  */
 export type ModuleOptions = {
   ID: number;
   name: ModuleKey;
-  element: HTMLElement | null;
+  element: HTMLElement;
   modules: Module[];
+};
+
+/**
+ * Variables accepted by the getErrorMessage function.
+ */
+export type ErrorVariables = {
+  [key: string]: any;
 };
