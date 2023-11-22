@@ -9,7 +9,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { isFunction } from '@/utils/is_function';
+import { isFunction } from '../../utils/is_function';
 
 describe('Utils | IsFunction', () => {
   test('should return true if the value is a function', () => {

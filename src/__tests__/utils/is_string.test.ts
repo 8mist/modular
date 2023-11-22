@@ -9,7 +9,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { isString } from '@/utils/is_string';
+import { isString } from '../../utils/is_string';
 
 describe('Utils | IsString', () => {
   test('should return true if the value is a string', () => {

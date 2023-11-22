@@ -10,6 +10,7 @@
 // eslint-disable-next-line max-len
 import { ModularModuleIdNotFoundException } from './exceptions/modular_module_id_not_found.exception';
 import { ModularModuleNotFoundException } from './exceptions/modular_module_not_found.exception';
+import { modulesCompiled } from './modules_compiled';
 import type { ModuleKey, ModuleOptions } from './types';
 import { generateCustomQuery } from './utils/generate_custom_query';
 import { isFunction } from './utils/is_function';
@@ -52,17 +53,10 @@ export class Module {
    */
   element: HTMLElement | null;
 
-  /**
-   * The module instances.
-   * @private
-   */
-  modules: Module[];
-
-  constructor({ ID, name, element, modules }: ModuleOptions) {
+  constructor({ ID, name, element }: ModuleOptions) {
     this.ID = ID;
     this.name = name;
     this.element = element;
-    this.modules = modules;
   }
 
   /**
@@ -76,10 +70,16 @@ export class Module {
   destroy(): void {}
 
   /**
+   * Bind all methods to the module instance.
+   * Automatically called by the Modular class before the init method.
+   */
+  bind(): void {}
+
+  /**
    * Call a method on a module.
    */
-  call(moduleName: ModuleKey, methodName: string, ...args: any[]) {
-    const moduleInstances = this.modules.filter((module) => module.name === moduleName);
+  call(moduleName: ModuleKey, methodName: string, ...args: any[]): void {
+    const moduleInstances = modulesCompiled.filterByName(moduleName);
 
     if (moduleInstances && moduleInstances.length > 0) {
       moduleInstances.forEach((moduleInstance) =>
@@ -93,11 +93,11 @@ export class Module {
   /**
    * Call a method on a module by id.
    */
-  callById(id: number, methodName: string, ...args: any[]) {
-    const module = this.modules.find((m) => m.ID === id);
+  callById(id: number, methodName: string, ...args: any[]): void {
+    const moduleInstance = modulesCompiled.getById(id);
 
-    if (module) {
-      this.#callMethod(module, methodName, args);
+    if (moduleInstance) {
+      this.#callMethod(moduleInstance, methodName, args);
     } else {
       throw new ModularModuleIdNotFoundException(id);
     }
@@ -137,13 +137,13 @@ export class Module {
   /**
    * Find the first parent element matching the query.
    */
-  parent(query: string, context: Element): Element | undefined {
+  parent<T extends HTMLElement>(query: string, target: T): T | undefined {
     const data = `[data-${this.name}="${query}"]`;
-    let parent = context.parentNode;
+    let parent = target.parentNode;
 
     while (parent && parent !== document) {
-      if ((parent as Element).matches(data)) {
-        return parent as Element;
+      if ((parent as T).matches(data)) {
+        return parent as T;
       }
 
       parent = parent.parentNode;
@@ -151,11 +151,34 @@ export class Module {
   }
 
   /**
+   * Returns element's first attribute whose qualified name is qualifiedName,
+   * and null if there is no such attribute otherwise.
+   */
+  getData<T extends HTMLElement>(qualifiedName: string, target: T): string | null {
+    const element = target || this.element;
+    if (element) {
+      return element.getAttribute(`data-${qualifiedName}`);
+    }
+
+    return null;
+  }
+
+  /**
+   * Sets the value of element's first attribute whose qualified name is qualifiedName to value.
+   */
+  setData<T extends HTMLElement>(qualifiedName: string, value: string, target: T): void {
+    const element = target || this.element;
+    if (element) {
+      element.setAttribute(`data-${qualifiedName}`, value);
+    }
+  }
+
+  /**
    * Call the method of a module instance.
    * @private
    */
-  #callMethod(module: any, methodName: string, ...args: any[]): void {
-    const moduleMethod = module[methodName];
+  #callMethod(moduleInstance: any, methodName: string, ...args: any[]): void {
+    const moduleMethod = moduleInstance[methodName];
     if (moduleMethod && isFunction(moduleMethod)) {
       moduleMethod.apply(this, ...args);
     }

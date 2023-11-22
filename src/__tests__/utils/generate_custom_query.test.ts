@@ -9,7 +9,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { generateCustomQuery } from '@/utils/generate_custom_query';
+import { generateCustomQuery } from '../../utils/generate_custom_query';
 
 describe('generateCustomQuery', () => {
   test('should generate a query `[data-module-test]`', () => {

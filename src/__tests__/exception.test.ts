@@ -9,12 +9,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ModularAlreadyExistsException } from '@/exceptions/modular_already_exists.exception';
+import { ModularAlreadyExistsException } from '../exceptions/modular_already_exists.exception';
 // eslint-disable-next-line max-len
-import { ModularModuleIdNotFoundException } from '@/exceptions/modular_module_id_not_found.exception';
-import { ModularModuleNotFoundException } from '@/exceptions/modular_module_not_found.exception';
-import { ModularProvideModulesException } from '@/exceptions/modular_provide_modules.exception';
-import { ModularException } from '@/exceptions/modular.exception';
+import { ModularModuleIdNotFoundException } from '../exceptions/modular_module_id_not_found.exception';
+import { ModularModuleNotFoundException } from '../exceptions/modular_module_not_found.exception';
+import { ModularProvideModulesException } from '../exceptions/modular_provide_modules.exception';
+import { ModularException } from '../exceptions/modular.exception';
 
 describe('Exception', () => {
   test('should throw a ModularException', () => {

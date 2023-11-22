@@ -9,7 +9,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { isObject } from '@/utils/is_object';
+import { isObject } from '../../utils/is_object';
 
 describe('Utils | IsObject', () => {
   test('should return true if the value is an object', () => {

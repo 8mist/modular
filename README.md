@@ -105,6 +105,29 @@ Initialize the module. <br /> This method is called by Modular.
 
 Destroy the module. <br /> This method is called by Modular.
 
+#### `bind()`
+
+Bind all methods of the module to the module instance. <br /> Automatically called by the Modular
+class before the init method.
+
+```ts
+import { Module } from '@gregoire.ciles/modular';
+
+class Header extends Module {
+  init(): void {
+    this.element.addEventListener('click', this.handleClick);
+  }
+
+  bind(): void {
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(): void {
+    console.log(this);
+  }
+}
+```
+
 #### `call(moduleName: string, methodName: string, ...args: any[]): void`
 
 Call a method of a module.
@@ -121,7 +144,7 @@ import { Modular, Module } from '@gregoire.ciles/modular';
 
 class One extends Module {
   init(): void {
-    this.el.addEventListener('click', this.handleClick.bind(this));
+    this.element.addEventListener('click', this.handleClick.bind(this));
   }
 
   handleClick(): void {
@@ -210,7 +233,7 @@ class Header extends Module {
 }
 ```
 
-#### `parent(query: string, context: Element): Element | undefined`
+#### `parent<T extends HTMLElement>(query: string, target: T): T | undefined`
 
 Find the first parent element matching the query.
 
@@ -229,6 +252,44 @@ class Header extends Module {
   init(): void {
     const item = this.q<HTMLElement>('item');
     const parentItem = this.parent('wrapper', item);
+  }
+}
+```
+
+#### `getData<T extends HTMLElement>(qualifiedName: string, target: T): string | null`
+
+Returns element's first attribute whose qualified name is qualifiedName, and null if there is no
+such attribute otherwise.
+
+```html
+<div data-module="header" data-is-open="false"></div>
+```
+
+```ts
+import { Module } from '@gregoire.ciles/modular';
+
+class Header extends Module {
+  init(): void {
+    console.log(this.getData('is-open')); // false
+  }
+}
+```
+
+#### `setData<T extends HTMLElement>(qualifiedName: string, value: string, target: T): void`
+
+Sets the value of element's first attribute whose qualified name is qualifiedName to value.
+
+```html
+<div data-module="header" data-is-open="false"></div>
+```
+
+```ts
+import { Module } from '@gregoire.ciles/modular';
+
+class Header extends Module {
+  init(): void {
+    this.setData('is-open', 'true');
+    console.log(this.getData('is-open')); // true
   }
 }
 ```
