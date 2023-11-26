@@ -11,7 +11,7 @@ import { ModularAlreadyExistsException } from './exceptions/modular_already_exis
 import { ModularProvideModulesException } from './exceptions/modular_provide_modules.exception';
 import { Module } from './module';
 import { modulesCompiled } from './modules_compiled';
-import type { Constructor, ModularOptions, ModuleCollection } from './types';
+import type { Constructor, ModularOptions, ModuleCollection, ModuleName } from './types';
 
 /**
  * Represents a dependency injection container in the Modular package.
@@ -42,15 +42,27 @@ import type { Constructor, ModularOptions, ModuleCollection } from './types';
  */
 export class Modular {
   /**
-   * Registered modules as constructor.
+   * A Map to store registered modules with their names as keys.
+   *
+   * @private
+   * @type {ModuleCollection}
    */
   #collection: ModuleCollection = new Map();
 
   /**
-   * A unique ID for each module instance.
+   * An internal counter to generate unique IDs for each module instance.
+   *
+   * @private
+   * @type {number}
    */
   #moduleID: number = 0;
 
+  /**
+   * Creates a Modular instance and registers provided modules.
+   *
+   * @param {ModularOptions} options - Configuration options for the modular system.
+   * @throws {ModularProvideModulesException} If no modules are provided in options.
+   */
   constructor(options: ModularOptions) {
     if (!options?.modules) {
       throw new ModularProvideModulesException();
@@ -60,13 +72,17 @@ export class Modular {
       this.set(name, options.modules[name]);
     }
 
-    this.compile();
+    this.#compile();
   }
 
   /**
-   * Register a module as a value in the collection.
+   * Registers a module in the collection.
+   *
+   * @param {ModuleName} moduleName - The name to register the module under.
+   * @param {Constructor<Module>} moduleValue - The constructor of the module.
+   * @throws {ModularAlreadyExistsException} If a module with the same name already exists.
    */
-  set(moduleName: string, moduleValue: Constructor<Module>): void {
+  set(moduleName: ModuleName, moduleValue: Constructor<Module>): void {
     if (!this.has(moduleName)) {
       this.#collection.set(moduleName, moduleValue);
     } else {
@@ -76,13 +92,18 @@ export class Modular {
 
   /**
    * Find if the collection has a module registered with the given name.
+   *
+   * @param {ModuleName} moduleName - The name of the module to check.
+   * @returns {boolean} True if the module is registered, false otherwise.
    */
-  has(moduleName: string): boolean {
+  has(moduleName: ModuleName): boolean {
     return this.#collection.has(moduleName);
   }
 
   /**
-   * Call the init method on all modules.
+   * Initializes all registered modules.
+   *
+   * Calls the init and bind methods on each modules instance.
    */
   init(): void {
     if (modulesCompiled.modules.length === 0) {
@@ -96,25 +117,27 @@ export class Modular {
   }
 
   /**
-   * Call the destroy method on all modules.
+   * Destroys all initialized modules.
+   *
+   * Calls the destroy method on each module instance.
    */
   destroy(): void {
     if (modulesCompiled.modules.length === 0) {
       return;
     }
 
-    modulesCompiled.modules.forEach((moduleCompiled) => {
-      moduleCompiled.destroy();
-    });
+    modulesCompiled.modules.forEach((moduleCompiled) => moduleCompiled.destroy());
     modulesCompiled.clear();
   }
 
   /**
-   * Compile the collection.
-   * This method should be called after all modules are registered.
-   * It will create instances of all modules and store them in a collection.
+   * Compile the collection of modules.
+   *
+   * Creates instances of all registered modules and stores them in a collection.
+   *
+   * @private
    */
-  compile(): void {
+  #compile(): void {
     for (const [moduleName, moduleConstructor] of this.#collection) {
       const elements = document.querySelectorAll(`[data-module="${moduleName}"]`);
 
@@ -128,7 +151,7 @@ export class Modular {
             element,
           });
 
-          modulesCompiled.add(moduleInstance);
+          modulesCompiled.set(moduleInstance);
           this.#moduleID++;
         });
       }

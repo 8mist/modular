@@ -12,7 +12,7 @@ import { describe, expect, test, vi } from 'vitest';
 import { Module } from '../module';
 import { modulesCompiled } from '../modules_compiled';
 
-describe('ModulesCompiled', () => {
+describe('Module', () => {
   test('should be able to create a module', () => {
     const element = document.createElement('div');
     element.setAttribute('data-module', 'test');
@@ -94,8 +94,8 @@ describe('ModulesCompiled', () => {
       element,
     });
 
-    modulesCompiled.add(buttonModule);
-    modulesCompiled.add(testModule);
+    modulesCompiled.set(buttonModule);
+    modulesCompiled.set(testModule);
 
     const spyClick = vi.spyOn(testModule, 'click');
 
@@ -117,7 +117,7 @@ describe('ModulesCompiled', () => {
       element: buttonElement,
     });
 
-    modulesCompiled.add(buttonModule);
+    modulesCompiled.set(buttonModule);
 
     expect(() => {
       buttonModule.call('test', 'click');
@@ -151,8 +151,8 @@ describe('ModulesCompiled', () => {
       element,
     });
 
-    modulesCompiled.add(buttonModule);
-    modulesCompiled.add(testModule);
+    modulesCompiled.set(buttonModule);
+    modulesCompiled.set(testModule);
 
     const spyClick = vi.spyOn(testModule, 'click');
 
@@ -174,7 +174,7 @@ describe('ModulesCompiled', () => {
       element: buttonElement,
     });
 
-    modulesCompiled.add(buttonModule);
+    modulesCompiled.set(buttonModule);
 
     expect(() => {
       buttonModule.callById(2001, 'click');
@@ -212,6 +212,7 @@ describe('ModulesCompiled', () => {
     });
 
     const result = testModule.q<HTMLParagraphElement[]>('child');
+    const res = testModule.q<HTMLElement>('child');
     expect(result).not.toBeNull();
     expect(result?.length).toBe(2);
   });

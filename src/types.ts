@@ -15,28 +15,28 @@ import { Module } from './module';
 export type Constructor<T> = new (...args: any[]) => T;
 
 /**
- * Accepted values for the collectable key.
+ * Accepted values for the module name.
  */
-export type ModuleKey = string;
+export type ModuleName = string;
 
 /**
  * Options accepted by the Modular class.
  */
 export type ModularOptions = {
   modules: {
-    [key: ModuleKey]: Constructor<Module>;
+    [name: ModuleName]: Constructor<Module>;
   };
 };
 
 /**
  * Shape of the registered collectables.
  */
-export type ModuleCollection = Map<ModuleKey, Constructor<Module>>;
+export type ModuleCollection = Map<ModuleName, Constructor<Module>>;
 
 /**
  * Shape of the registered collectables compiled.
  */
-export type ModuleCollectionCompiled = Map<ModuleKey, Module>;
+export type ModuleCollectionCompiled = Map<ModuleName, Module>;
 
 /**
  * Shape of the module compiled.
@@ -46,10 +46,10 @@ export type ModuleCompiled = Module;
 /**
  * Options accepted by the module class.
  */
-export type ModuleOptions = {
+export type ModuleOptions<TElement> = {
   ID: number;
-  name: ModuleKey;
-  element: HTMLElement;
+  name: ModuleName;
+  element: TElement;
 };
 
 /**
