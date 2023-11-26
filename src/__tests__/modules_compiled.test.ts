@@ -26,7 +26,7 @@ describe('ModulesCompiled', () => {
       element: document.createElement('div'),
     });
 
-    modulesCompiled.add(moduleInstance);
+    modulesCompiled.set(moduleInstance);
 
     expect(modulesCompiled.modules).toContain(moduleInstance);
     expect(modulesCompiled.modules.length).toBe(1);
@@ -41,7 +41,7 @@ describe('ModulesCompiled', () => {
       element: document.createElement('div'),
     });
 
-    modulesCompiled.add(moduleInstance);
+    modulesCompiled.set(moduleInstance);
     modulesCompiled.clear();
 
     expect(modulesCompiled.modules).not.toContain(moduleInstance);
@@ -63,8 +63,8 @@ describe('ModulesCompiled', () => {
       element: document.createElement('div'),
     });
 
-    modulesCompiled.add(moduleInstance1);
-    modulesCompiled.add(moduleInstance2);
+    modulesCompiled.set(moduleInstance1);
+    modulesCompiled.set(moduleInstance2);
 
     expect(modulesCompiled.filterByName('test')).toContain(moduleInstance1);
     expect(modulesCompiled.filterByName('test').length).toBe(1);
@@ -85,8 +85,8 @@ describe('ModulesCompiled', () => {
       element: document.createElement('div'),
     });
 
-    modulesCompiled.add(moduleInstance1);
-    modulesCompiled.add(moduleInstance2);
+    modulesCompiled.set(moduleInstance1);
+    modulesCompiled.set(moduleInstance2);
 
     expect(modulesCompiled.getById(1)).toBe(moduleInstance1);
     expect(modulesCompiled.getById(2)).toBe(moduleInstance2);
