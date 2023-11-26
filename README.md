@@ -256,7 +256,7 @@ class Header extends Module {
 }
 ```
 
-#### `getData<T extends HTMLElement>(qualifiedName: string, target: T): string | null`
+#### `getData<T extends HTMLElement>(qualifiedName: string, target?: T): string | null`
 
 Returns element's first attribute whose qualified name is qualifiedName, and null if there is no
 such attribute otherwise.
@@ -275,7 +275,7 @@ class Header extends Module {
 }
 ```
 
-#### `setData<T extends HTMLElement>(qualifiedName: string, value: string, target: T): void`
+#### `setData<T extends HTMLElement>(qualifiedName: string, value: string, target?: T): void`
 
 Sets the value of element's first attribute whose qualified name is qualifiedName to value.
 
