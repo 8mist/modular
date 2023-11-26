@@ -154,7 +154,7 @@ export class Module {
    * Returns element's first attribute whose qualified name is qualifiedName,
    * and null if there is no such attribute otherwise.
    */
-  getData<T extends HTMLElement>(qualifiedName: string, target: T): string | null {
+  getData<T extends HTMLElement>(qualifiedName: string, target?: T): string | null {
     const element = target || this.element;
     if (element) {
       return element.getAttribute(`data-${qualifiedName}`);
@@ -166,7 +166,7 @@ export class Module {
   /**
    * Sets the value of element's first attribute whose qualified name is qualifiedName to value.
    */
-  setData<T extends HTMLElement>(qualifiedName: string, value: string, target: T): void {
+  setData<T extends HTMLElement>(qualifiedName: string, value: string, target?: T): void {
     const element = target || this.element;
     if (element) {
       element.setAttribute(`data-${qualifiedName}`, value);
